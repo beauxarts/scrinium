@@ -14,10 +14,12 @@ const (
 
 	coverPath        = "/pub/c/cover"
 	myBooksFreshPath = "/pages/my_books_fresh"
-	detailedDataPath = "/static/ds/detailed_data.xml.gz"
+	detailedDataPath = "/static/ds/" + DetailedDataFilename
 
 	coverPathTemplate = "/{id}.jpg"
 	pagePathTemplate  = "/page-{num}"
+
+	DetailedDataFilename = "detailed_data.xml.gz"
 )
 
 func MyBooksFreshUrl(page int) *url.URL {
@@ -30,12 +32,12 @@ func MyBooksFreshUrl(page int) *url.URL {
 		Path:   myBooksFreshPath + pp,
 	}
 
-	q := u.Query()
-
-	q.Set("lite", "1")
-	q.Set("gu_ajax", "true")
-
-	u.RawQuery = q.Encode()
+	//q := u.Query()
+	//
+	//q.Set("lite", "1")
+	//q.Set("gu_ajax", "true")
+	//
+	//u.RawQuery = q.Encode()
 
 	return u
 }
