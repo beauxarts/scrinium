@@ -8,9 +8,9 @@ import (
 
 const (
 	scheme               = "https"
-	litresHost           = "litres.ru"
-	wwwHost              = "www." + litresHost
-	partnersDownloadHost = "partnersdnld." + litresHost
+	LitResHost           = "litres.ru"
+	wwwHost              = "www." + LitResHost
+	partnersDownloadHost = "partnersdnld." + LitResHost
 
 	coverPath        = "/pub/c/cover"
 	myBooksFreshPath = "/pages/my_books_fresh"
