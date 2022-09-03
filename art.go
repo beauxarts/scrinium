@@ -11,7 +11,7 @@ type LitResUpdates struct {
 
 type Art struct {
 	XMLName     xml.Name   `xml:"art"`
-	IntId       int        `xml:"int_id,attr"`
+	IntId       int64      `xml:"int_id,attr"`
 	Added       string     `xml:"added,attr"`
 	Price       float64    `xml:"price,attr"`
 	Cover       string     `xml:"cover,attr"`
@@ -103,16 +103,16 @@ type Date struct {
 }
 
 type PublishInfo struct {
-	XMLName   xml.Name   `xml:"publish-info"`
-	BookName  string     `xml:"book-name"`
-	Publisher string     `xml:"publisher"`
-	City      string     `xml:"city"`
-	Year      int        `xml:"year"`
-	ISBN      string     `xml:"isbn"`
-	Sequence  PISequence `xml:"sequence"`
+	XMLName   xml.Name `xml:"publish-info"`
+	BookName  string   `xml:"book-name"`
+	Publisher string   `xml:"publisher"`
+	City      string   `xml:"city"`
+	Year      int      `xml:"year"`
+	ISBN      string   `xml:"isbn"`
+	Sequence  Sequence `xml:"sequence"`
 }
 
-type PISequence struct {
+type Sequence struct {
 	XMLName xml.Name `xml:"sequence"`
 	Name    string   `xml:"name,attr"`
 	Number  int      `xml:"number,attr"`
