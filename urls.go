@@ -27,20 +27,19 @@ func MyBooksFreshUrl(page int) *url.URL {
 
 	pp := strings.Replace(pagePathTemplate, "{num}", strconv.Itoa(page), -1)
 
-	u := &url.URL{
+	return &url.URL{
 		Scheme: scheme,
 		Host:   wwwHost,
 		Path:   myBooksFreshPath + pp,
 	}
+}
 
-	//q := u.Query()
-	//
-	//q.Set("lite", "1")
-	//q.Set("gu_ajax", "true")
-	//
-	//u.RawQuery = q.Encode()
-
-	return u
+func MyBookDetails(href string) *url.URL {
+	return &url.URL{
+		Scheme: scheme,
+		Host:   wwwHost,
+		Path:   href,
+	}
 }
 
 func CoverUrl(id int64) *url.URL {
@@ -54,25 +53,25 @@ func CoverUrl(id int64) *url.URL {
 	}
 }
 
-func DetailedDataUrl() *url.URL {
-	return &url.URL{
-		Scheme: scheme,
-		Host:   wwwHost,
-		Path:   detailedDataPath,
-	}
-}
+//func DetailedDataUrl() *url.URL {
+//	return &url.URL{
+//		Scheme: scheme,
+//		Host:   wwwHost,
+//		Path:   detailedDataPath,
+//	}
+//}
 
-func BiblioBookUrl(id int64) *url.URL {
-	u := &url.URL{
-		Scheme: scheme,
-		Host:   wwwHost,
-		Path:   biblioBookPath,
-	}
-
-	q := u.Query()
-	q.Set("art", strconv.FormatInt(id, 10))
-
-	u.RawQuery = q.Encode()
-
-	return u
-}
+//func BiblioBookUrl(id int64) *url.URL {
+//	u := &url.URL{
+//		Scheme: scheme,
+//		Host:   wwwHost,
+//		Path:   biblioBookPath,
+//	}
+//
+//	q := u.Query()
+//	q.Set("art", strconv.FormatInt(id, 10))
+//
+//	u.RawQuery = q.Encode()
+//
+//	return u
+//}

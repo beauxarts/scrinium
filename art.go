@@ -49,19 +49,18 @@ type YearRating struct {
 }
 
 type Author struct {
-	XMLName          xml.Name `xml:"author"`
-	Id               string   `xml:"id"`
-	AuthorId         string   `xml:"id,attr"`
-	SubjectId        int64    `xml:"subject_id"`
-	Url              string   `xml:"url"`
-	FirstName        string   `xml:"first-name"`
-	MiddleName       string   `xml:"middle-name"`
-	LastName         string   `xml:"last-name"`
-	Email            string   `xml:"email"`
-	FullName         string   `xml:"full-name"`
-	FullNameGenitive string   `xml:"full-name-rodit"`
-	Lvl              int      `xml:"lvl"`
-	Relation         int      `xml:"relation"`
+	Id               string `xml:"id"`
+	AuthorId         string `xml:"id,attr"`
+	SubjectId        int64  `xml:"subject_id"`
+	Url              string `xml:"url"`
+	FirstName        string `xml:"first-name"`
+	MiddleName       string `xml:"middle-name"`
+	LastName         string `xml:"last-name"`
+	Email            string `xml:"email"`
+	FullName         string `xml:"full-name"`
+	FullNameGenitive string `xml:"full-name-rodit"`
+	Lvl              int    `xml:"lvl"`
+	Relation         int    `xml:"relation"`
 }
 
 func (a *Author) String() string {
