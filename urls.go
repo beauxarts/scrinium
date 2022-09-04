@@ -34,7 +34,7 @@ func MyBooksFreshUrl(page int) *url.URL {
 	}
 }
 
-func MyBookDetails(href string) *url.URL {
+func HrefUrl(href string) *url.URL {
 	return &url.URL{
 		Scheme: scheme,
 		Host:   wwwHost,
