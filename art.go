@@ -2,6 +2,7 @@ package litres_integration
 
 import (
 	"encoding/xml"
+	"strings"
 )
 
 type LitResUpdates struct {
@@ -57,9 +58,23 @@ type Author struct {
 	MiddleName       string   `xml:"middle-name"`
 	LastName         string   `xml:"last-name"`
 	Email            string   `xml:"email"`
+	FullName         string   `xml:"full-name"`
 	FullNameGenitive string   `xml:"full-name-rodit"`
 	Lvl              int      `xml:"lvl"`
 	Relation         int      `xml:"relation"`
+}
+
+func (a *Author) String() string {
+	parts := []string{a.FirstName, a.MiddleName, a.LastName}
+	nep := make([]string, 0, len(parts))
+
+	for _, p := range parts {
+		if p != "" {
+			nep = append(nep, p)
+		}
+	}
+
+	return strings.Join(nep, " ")
 }
 
 type Hidden struct {
@@ -70,11 +85,13 @@ type Hidden struct {
 }
 
 type TitleInfo struct {
-	XMLName    xml.Name `xml:"title-info"`
-	Genres     []string `xml:"genre"`
-	Author     Author   `xml:"author"`
-	BookTitle  string   `xml:"book-title"`
-	Annotation struct {
+	XMLName     xml.Name `xml:"title-info"`
+	Genres      []string `xml:"genre"`
+	Authors     []Author `xml:"author"`
+	Translators []Author `xml:"translator"`
+	Readers     []Author `xml:"reader"`
+	BookTitle   string   `xml:"book-title"`
+	Annotation  struct {
 		P []string `xml:"p"`
 	} `xml:"annotation"`
 	Date      Date `xml:"date"`
@@ -116,4 +133,52 @@ type Sequence struct {
 	XMLName xml.Name `xml:"sequence"`
 	Name    string   `xml:"name,attr"`
 	Number  int      `xml:"number,attr"`
+}
+
+func (a *Art) GetBookTitle() string {
+	return a.TextDescription.Hidden.TitleInfo.BookTitle
+}
+
+func (a *Art) GetGenres() []string {
+	return a.TextDescription.Hidden.TitleInfo.Genres
+}
+
+func (a *Art) GetPublisher() string {
+	return a.TextDescription.Hidden.PublishInfo.Publisher
+}
+
+func (a *Art) GetISBN() string {
+	return a.TextDescription.Hidden.PublishInfo.ISBN
+}
+
+func (a *Art) GetYear() int {
+	return a.TextDescription.Hidden.PublishInfo.Year
+}
+
+func (a *Art) GetSequenceName() string {
+	return a.TextDescription.Hidden.PublishInfo.Sequence.Name
+}
+
+func (a *Art) GetSequenceNumber() int {
+	return a.TextDescription.Hidden.PublishInfo.Sequence.Number
+}
+
+func getAuthorsStrings(authors []Author) []string {
+	as := make([]string, 0, len(authors))
+	for _, a := range authors {
+		as = append(as, a.String())
+	}
+	return as
+}
+
+func (a *Art) GetAuthors() []string {
+	return getAuthorsStrings(a.TextDescription.Hidden.TitleInfo.Authors)
+}
+
+func (a *Art) GetTranslators() []string {
+	return getAuthorsStrings(a.TextDescription.Hidden.TitleInfo.Translators)
+}
+
+func (a *Art) GetReaders() []string {
+	return getAuthorsStrings(a.TextDescription.Hidden.TitleInfo.Readers)
 }

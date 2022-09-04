@@ -15,6 +15,7 @@ const (
 	coverPath        = "/pub/c/cover"
 	myBooksFreshPath = "/pages/my_books_fresh"
 	detailedDataPath = "/static/ds/" + DetailedDataFilename
+	biblioBookPath   = "/pages/biblio_book/"
 
 	coverPathTemplate = "/{id}.jpg"
 	pagePathTemplate  = "/page-{num}"
@@ -59,4 +60,19 @@ func DetailedDataUrl() *url.URL {
 		Host:   wwwHost,
 		Path:   detailedDataPath,
 	}
+}
+
+func BiblioBookUrl(id int64) *url.URL {
+	u := &url.URL{
+		Scheme: scheme,
+		Host:   wwwHost,
+		Path:   biblioBookPath,
+	}
+
+	q := u.Query()
+	q.Set("art", strconv.FormatInt(id, 10))
+
+	u.RawQuery = q.Encode()
+
+	return u
 }
