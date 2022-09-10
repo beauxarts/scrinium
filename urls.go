@@ -13,6 +13,7 @@ const (
 	partnersDownloadHost = "partnersdnld." + LitResHost
 
 	coverPath        = "/pub/c/cover"
+	cover330Path     = "/pub/c/cover_330"
 	myBooksFreshPath = "/pages/my_books_fresh"
 	detailedDataPath = "/static/ds/" + DetailedDataFilename
 	biblioBookPath   = "/pages/biblio_book/"
@@ -42,36 +43,20 @@ func HrefUrl(href string) *url.URL {
 	}
 }
 
-func CoverUrl(id int64) *url.URL {
-
+func coverSizeUrl(id int64, coverSizePath string) *url.URL {
 	cp := strings.Replace(coverPathTemplate, "{id}", strconv.FormatInt(id, 10), -1)
 
 	return &url.URL{
 		Scheme: scheme,
 		Host:   partnersDownloadHost,
-		Path:   coverPath + cp,
+		Path:   coverSizePath + cp,
 	}
 }
 
-//func DetailedDataUrl() *url.URL {
-//	return &url.URL{
-//		Scheme: scheme,
-//		Host:   wwwHost,
-//		Path:   detailedDataPath,
-//	}
-//}
+func CoverUrl(id int64) *url.URL {
+	return coverSizeUrl(id, coverPath)
+}
 
-//func BiblioBookUrl(id int64) *url.URL {
-//	u := &url.URL{
-//		Scheme: scheme,
-//		Host:   wwwHost,
-//		Path:   biblioBookPath,
-//	}
-//
-//	q := u.Query()
-//	q.Set("art", strconv.FormatInt(id, 10))
-//
-//	u.RawQuery = q.Encode()
-//
-//	return u
-//}
+func Cover330Url(id int64) *url.URL {
+	return coverSizeUrl(id, cover330Path)
+}
