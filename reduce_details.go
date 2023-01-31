@@ -90,7 +90,7 @@ func ReduceDetails(body *html.Node) (map[string][]string, error) {
 		}
 	}
 
-	bookDescrEtc := match_node.NewEtc(atom.Div, "biblio_book_descr", true)
+	bookDescrEtc := match_node.NewEtc(atom.Div, "biblio_book_descr_publishers", true)
 	if bd := match_node.Match(body, bookDescrEtc); bd != nil {
 
 		buf := new(bytes.Buffer)
