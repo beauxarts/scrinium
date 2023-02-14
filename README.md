@@ -1,2 +1,6 @@
-# litres_integration
-LitRes integration Go module
+# scrinium
+ 
+Book services integrations module, currently supporting:
+
+- LitRes
+- LiveLib

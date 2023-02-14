@@ -2,6 +2,7 @@ package litres_integration
 
 import (
 	"bytes"
+	scrinium "github.com/beauxarts/litres_integration"
 	"github.com/boggydigital/match_node"
 	"golang.org/x/net/html"
 	"golang.org/x/net/html/atom"
@@ -20,15 +21,6 @@ const (
 	TagsProperty            = "Тэги"
 	KnownIrrelevantProperty = "known-irrelevant-property"
 )
-
-func getAttribute(node *html.Node, attrName string) string {
-	for _, attr := range node.Attr {
-		if attr.Key == attrName {
-			return attr.Val
-		}
-	}
-	return ""
-}
 
 func ReduceDetails(body *html.Node) (map[string][]string, error) {
 
@@ -66,7 +58,7 @@ func ReduceDetails(body *html.Node) (map[string][]string, error) {
 		downloadLinks := match_node.Matches(bdn, downloadLinkEtc, -1)
 		links := make([]string, 0, len(downloadLinks))
 		for _, dl := range downloadLinks {
-			links = append(links, getAttribute(dl, "href"))
+			links = append(links, scrinium.GetAttribute(dl, "href"))
 		}
 		rdx[DownloadLinksProperty] = links
 	}
@@ -75,8 +67,8 @@ func ReduceDetails(body *html.Node) (map[string][]string, error) {
 		// check for PDF links
 		newButtonEtc := match_node.NewEtc(atom.Div, "bb_newbutton", true)
 		for _, nb := range match_node.Matches(body, newButtonEtc, -1) {
-			if getAttribute(nb, "data-type") == "pdf" {
-				rdx[DownloadLinksProperty] = []string{getAttribute(nb.FirstChild, "href")}
+			if scrinium.GetAttribute(nb, "data-type") == "pdf" {
+				rdx[DownloadLinksProperty] = []string{scrinium.GetAttribute(nb.FirstChild, "href")}
 			}
 		}
 	}
@@ -86,7 +78,7 @@ func ReduceDetails(body *html.Node) (map[string][]string, error) {
 	if amn := match_node.Match(body, additionalMaterialsEtc); amn != nil {
 		linkEtc := match_node.NewEtc(atom.A, "bb_newbutton_inner_link", true)
 		if link := match_node.Match(amn, linkEtc); link != nil {
-			rdx[DownloadLinksProperty] = append(rdx[DownloadLinksProperty], getAttribute(link, "href"))
+			rdx[DownloadLinksProperty] = append(rdx[DownloadLinksProperty], scrinium.GetAttribute(link, "href"))
 		}
 	}
 
