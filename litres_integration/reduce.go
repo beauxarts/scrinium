@@ -2,7 +2,7 @@ package litres_integration
 
 import (
 	"bytes"
-	scrinium "github.com/beauxarts/litres_integration"
+	"github.com/beauxarts/scrinium"
 	"github.com/boggydigital/match_node"
 	"golang.org/x/net/html"
 	"golang.org/x/net/html/atom"
