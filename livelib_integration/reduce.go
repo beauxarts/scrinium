@@ -1,6 +1,7 @@
 package livelib_integration
 
 import (
+	"fmt"
 	"github.com/boggydigital/match_node"
 	"golang.org/x/net/html"
 	"golang.org/x/net/html/atom"
@@ -10,20 +11,26 @@ import (
 const (
 	TitleProperty = "Название"
 	// TypeProperty            = "Тип книги"
-	AuthorsProperty    = "Авторы"
-	PublishersProperty = "Издательство"
+	AuthorsProperty       = "Авторы"
+	TranslatorsProperty   = "Переводчики"
+	PublishersProperty    = "Издательство"
+	YearPublishedProperty = "Год издания"
+	LanguageProperty      = "Язык"
 	// DownloadLinksProperty   = "Загрузки"
 	DescriptionProperty    = "Описание"
 	SequenceNameProperty   = "Название серии"
 	SequenceNumberProperty = "Номер в серии"
 	EditionSeriesProperty  = "Серия издания"
 	GenresProperty         = "Жанры"
+	AgeRatingProperty      = "Возрастные ограничения"
+	TagsProperty           = "Теги"
 	// TagsProperty            = "Тэги"
 	AwardsProperty = "Премии"
+	ISBNProperty   = "ISBN"
 	// KnownIrrelevantProperty = "known-irrelevant-property"
 )
 
-func ReduceDetails(body *html.Node) (map[string][]string, error) {
+func Reduce(body *html.Node) (map[string][]string, error) {
 
 	rdx := make(map[string][]string)
 
@@ -53,11 +60,7 @@ func ReduceDetails(body *html.Node) (map[string][]string, error) {
 
 		desc := match_node.NewId(atom.Div, "lenta-card__text-edition-escaped")
 		if de := match_node.Match(an, desc); de != nil {
-			sb := &strings.Builder{}
-			if err := html.Render(sb, de); err != nil {
-				return rdx, err
-			}
-			rdx[DescriptionProperty] = []string{sb.String()}
+			rdx[DescriptionProperty] = []string{textContent(de)}
 		}
 	}
 
@@ -70,7 +73,11 @@ func ReduceDetails(body *html.Node) (map[string][]string, error) {
 
 	info := match_node.NewEtc(atom.Div, "bc-info", true)
 	if ie := match_node.Match(body, info); ie != nil {
-		for p, v := range reduceInfo(ie) {
+		infoRdx, err := reduceInfo(ie)
+		if err != nil {
+			return rdx, err
+		}
+		for p, v := range infoRdx {
 			rdx[p] = v
 		}
 	}
@@ -108,8 +115,62 @@ func reduceEdition(node *html.Node) map[string][]string {
 	return rdx
 }
 
-func reduceInfo(node *html.Node) map[string][]string {
+var liveLibProperties = map[string]string{
+	"Перевод":             TranslatorsProperty,
+	ISBNProperty:          ISBNProperty,
+	YearPublishedProperty: YearPublishedProperty,
+	LanguageProperty:      LanguageProperty,
+	AgeRatingProperty:     AgeRatingProperty,
+	GenresProperty:        GenresProperty,
+	TagsProperty:          TagsProperty,
+}
+
+func reduceInfo(node *html.Node) (map[string][]string, error) {
 	rdx := make(map[string][]string)
 
-	return rdx
+	pars := match_node.NewAtom(atom.P)
+	for _, p := range match_node.Matches(node, pars, -1) {
+
+		innerText := textContent(p)
+		innerText = strings.TrimSpace(innerText)
+
+		if p, v, ok := strings.Cut(innerText, ":"); ok {
+			if property, ok := liveLibProperties[p]; ok {
+				rdx[property] = trimValues(v)
+			} else {
+				fmt.Println(p, v)
+			}
+		}
+	}
+
+	return rdx, nil
+}
+
+func textContent(node *html.Node) string {
+	sb := &strings.Builder{}
+
+	var f func(*html.Node)
+	f = func(n *html.Node) {
+
+		if n.Type == html.TextNode {
+			sb.WriteString(n.Data)
+			return
+		}
+		for c := n.FirstChild; c != nil; c = c.NextSibling {
+			f(c)
+		}
+	}
+
+	f(node)
+
+	return sb.String()
+}
+
+func trimValues(v string) []string {
+	values := strings.Split(v, ",")
+	tv := make([]string, len(values))
+	for i, v := range values {
+		tv[i] = strings.TrimSpace(v)
+	}
+	return tv
 }

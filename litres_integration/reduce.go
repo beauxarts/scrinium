@@ -22,7 +22,7 @@ const (
 	KnownIrrelevantProperty = "known-irrelevant-property"
 )
 
-func ReduceDetails(body *html.Node) (map[string][]string, error) {
+func Reduce(body *html.Node) (map[string][]string, error) {
 
 	rdx := make(map[string][]string)
 
