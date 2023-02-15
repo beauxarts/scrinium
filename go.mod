@@ -1,4 +1,4 @@
-module github.com/beauxarts/litres_integration
+module github.com/beauxarts/scrinium
 
 go 1.20
 
