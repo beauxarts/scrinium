@@ -2,6 +2,7 @@ package livelib_integration
 
 import (
 	"fmt"
+	scrinium "github.com/beauxarts/litres_integration"
 	"github.com/boggydigital/match_node"
 	"golang.org/x/net/html"
 	"golang.org/x/net/html/atom"
@@ -9,14 +10,12 @@ import (
 )
 
 const (
-	TitleProperty = "Название"
-	// TypeProperty            = "Тип книги"
-	AuthorsProperty       = "Авторы"
-	TranslatorsProperty   = "Переводчики"
-	PublishersProperty    = "Издательство"
-	YearPublishedProperty = "Год издания"
-	LanguageProperty      = "Язык"
-	// DownloadLinksProperty   = "Загрузки"
+	TitleProperty          = "Название"
+	AuthorsProperty        = "Авторы"
+	TranslatorsProperty    = "Переводчики"
+	PublishersProperty     = "Издательство"
+	YearPublishedProperty  = "Год издания"
+	LanguageProperty       = "Язык"
 	DescriptionProperty    = "Описание"
 	SequenceNameProperty   = "Название серии"
 	SequenceNumberProperty = "Номер в серии"
@@ -24,10 +23,8 @@ const (
 	GenresProperty         = "Жанры"
 	AgeRatingProperty      = "Возрастные ограничения"
 	TagsProperty           = "Теги"
-	// TagsProperty            = "Тэги"
-	AwardsProperty = "Премии"
-	ISBNProperty   = "ISBN"
-	// KnownIrrelevantProperty = "known-irrelevant-property"
+	ISBNProperty           = "ISBN"
+	ImageProperty          = "Обложка"
 )
 
 func Reduce(body *html.Node) (map[string][]string, error) {
@@ -45,6 +42,13 @@ func Reduce(body *html.Node) (map[string][]string, error) {
 		bookAuthor := match_node.NewEtc(atom.A, "bc-author__link", true)
 		for _, ba := range match_node.Matches(bh, bookAuthor, -1) {
 			rdx[AuthorsProperty] = append(rdx[AuthorsProperty], ba.FirstChild.Data)
+		}
+	}
+
+	bookImage := match_node.NewId(atom.Img, "main-image-book")
+	if bi := match_node.Match(body, bookImage); bi != nil {
+		if src := scrinium.GetAttribute(bi, "src"); src != "" {
+			rdx[ImageProperty] = []string{src}
 		}
 	}
 
