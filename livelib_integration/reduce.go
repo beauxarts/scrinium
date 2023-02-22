@@ -1,9 +1,9 @@
 package livelib_integration
 
 import (
-	"fmt"
 	"github.com/beauxarts/scrinium"
 	"github.com/boggydigital/match_node"
+	"github.com/boggydigital/nod"
 	"golang.org/x/net/html"
 	"golang.org/x/net/html/atom"
 	"strings"
@@ -19,7 +19,6 @@ const (
 	DescriptionProperty    = "Описание"
 	SequenceNameProperty   = "Название серии"
 	SequenceNumberProperty = "Номер в серии"
-	EditionSeriesProperty  = "Серия издания"
 	GenresProperty         = "Жанры"
 	AgeRatingProperty      = "Возрастные ограничения"
 	TagsProperty           = "Теги"
@@ -64,7 +63,8 @@ func Reduce(body *html.Node) (map[string][]string, error) {
 
 		desc := match_node.NewId(atom.Div, "lenta-card__text-edition-escaped")
 		if de := match_node.Match(an, desc); de != nil {
-			rdx[DescriptionProperty] = []string{textContent(de)}
+			rdx[DescriptionProperty] = []string{
+				trimNewLinesWhitespace(textContent(de))}
 		}
 	}
 
@@ -95,6 +95,7 @@ func reduceEdition(node *html.Node) map[string][]string {
 	for _, htd := range match_node.Matches(node, heading, -1) {
 		headingText := htd.FirstChild.Data
 		values := make([]string, 0)
+
 		if headingSibling := htd.NextSibling.NextSibling; headingSibling != nil {
 			link := match_node.NewEtc(atom.A, "bc-edition__link", true)
 			for _, ae := range match_node.Matches(headingSibling, link, -1) {
@@ -102,9 +103,18 @@ func reduceEdition(node *html.Node) map[string][]string {
 			}
 		}
 
+		if len(values) == 0 {
+			for sibling := htd.NextSibling; sibling != nil; sibling = sibling.NextSibling {
+				if sibling.DataAtom != atom.Td {
+					continue
+				}
+				values = append(values, sibling.FirstChild.Data)
+			}
+		}
+
 		switch headingText {
 		case "Серия:":
-			rdx[EditionSeriesProperty] = values
+			fallthrough
 		case "Цикл:":
 			for _, v := range values {
 				if st, sn, ok := strings.Cut(v, ","); ok {
@@ -142,7 +152,7 @@ func reduceInfo(node *html.Node) (map[string][]string, error) {
 			if property, ok := liveLibProperties[p]; ok {
 				rdx[property] = trimValues(v)
 			} else {
-				fmt.Println(p, v)
+				nod.Log("%s: %s", p, v)
 			}
 		}
 	}
@@ -168,6 +178,10 @@ func textContent(node *html.Node) string {
 	f(node)
 
 	return sb.String()
+}
+
+func trimNewLinesWhitespace(s string) string {
+	return strings.TrimSpace(strings.Replace(s, "\n", "", -1))
 }
 
 func trimValues(v string) []string {
