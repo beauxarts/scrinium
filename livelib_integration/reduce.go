@@ -38,7 +38,7 @@ func Reduce(body *html.Node) (map[string][]string, error) {
 			rdx[TitleProperty] = []string{bt.FirstChild.Data}
 		}
 
-		bookAuthor := match_node.NewEtc(atom.A, "bc-author__link", true)
+		bookAuthor := match_node.NewEtc(atom.A, "bc-author__link", false)
 		for _, ba := range match_node.Matches(bh, bookAuthor, -1) {
 			rdx[AuthorsProperty] = append(rdx[AuthorsProperty], ba.FirstChild.Data)
 		}
