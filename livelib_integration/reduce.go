@@ -64,7 +64,7 @@ func Reduce(body *html.Node) (map[string][]string, error) {
 		desc := match_node.NewId(atom.Div, "lenta-card__text-edition-escaped")
 		if de := match_node.Match(an, desc); de != nil {
 			rdx[DescriptionProperty] = []string{
-				trimNewLinesWhitespace(textContent(de))}
+				trimNewLinesWhitespace(match_node.TextContent(de))}
 		}
 	}
 
@@ -145,7 +145,7 @@ func reduceInfo(node *html.Node) (map[string][]string, error) {
 	pars := match_node.NewAtom(atom.P)
 	for _, p := range match_node.Matches(node, pars, -1) {
 
-		innerText := textContent(p)
+		innerText := match_node.TextContent(p)
 		innerText = strings.TrimSpace(innerText)
 
 		if p, v, ok := strings.Cut(innerText, ":"); ok {
@@ -158,26 +158,6 @@ func reduceInfo(node *html.Node) (map[string][]string, error) {
 	}
 
 	return rdx, nil
-}
-
-func textContent(node *html.Node) string {
-	sb := &strings.Builder{}
-
-	var f func(*html.Node)
-	f = func(n *html.Node) {
-
-		if n.Type == html.TextNode {
-			sb.WriteString(n.Data)
-			return
-		}
-		for c := n.FirstChild; c != nil; c = c.NextSibling {
-			f(c)
-		}
-	}
-
-	f(node)
-
-	return sb.String()
 }
 
 func trimNewLinesWhitespace(s string) string {
