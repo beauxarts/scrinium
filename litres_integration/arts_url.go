@@ -6,12 +6,11 @@ import (
 )
 
 var artsPathTemplates = map[ArtsType]string{
-	ArtsDetails:     artsDetailsPathTemplate,
-	ArtsSimilar:     artsSimilarPathTemplate,
-	ArtsQuotes:      artsQuotesPathTemplate,
-	ArtsUserReviews: artsUserReviewsPathTemplate,
-	ArtsFiles:       artsFilesPathTemplate,
-	ArtsReviews:     artsReviewsPathTemplate,
+	ArtsDetails: artsDetailsPathTemplate,
+	ArtsSimilar: artsSimilarPathTemplate,
+	ArtsQuotes:  artsQuotesPathTemplate,
+	ArtsFiles:   artsFilesPathTemplate,
+	ArtsReviews: artsReviewsPathTemplate,
 }
 
 func ArtsUrl(at ArtsType, id string) *url.URL {

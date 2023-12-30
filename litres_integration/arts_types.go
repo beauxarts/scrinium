@@ -1,7 +1,5 @@
 package litres_integration
 
-import "golang.org/x/exp/maps"
-
 type ArtsType int
 
 const (
@@ -9,23 +7,29 @@ const (
 	ArtsDetails
 	ArtsSimilar
 	ArtsQuotes
-	ArtsUserReviews
 	ArtsFiles
 	ArtsReviews
 )
 
 var artsTypesStrings = map[ArtsType]string{
-	ArtsUnknown:     "arts-unknown",
-	ArtsDetails:     "arts-details",
-	ArtsSimilar:     "arts-similar",
-	ArtsQuotes:      "arts-quotes",
-	ArtsUserReviews: "arts-user-reviews",
-	ArtsFiles:       "arts-files",
-	ArtsReviews:     "arts-reviews",
+	ArtsUnknown: "arts-unknown",
+	ArtsDetails: "arts-details",
+	ArtsSimilar: "arts-similar",
+	ArtsQuotes:  "arts-quotes",
+	ArtsFiles:   "arts-files",
+	ArtsReviews: "arts-reviews",
 }
 
 func AllArtsTypes() []ArtsType {
-	return maps.Keys(artsTypesStrings)
+	aat := make([]ArtsType, 0, len(artsTypesStrings)-1)
+	for at := range artsTypesStrings {
+		if at == ArtsUnknown {
+			continue
+		}
+		aat = append(aat, at)
+	}
+
+	return aat
 }
 
 func (at ArtsType) String() string {

@@ -1,7 +1,5 @@
 package litres_integration
 
-import "golang.org/x/exp/maps"
-
 type AuthorType int
 
 const (
@@ -17,7 +15,15 @@ var authorTypesStrings = map[AuthorType]string{
 }
 
 func AllAuthorTypes() []AuthorType {
-	return maps.Keys(authorTypesStrings)
+	aat := make([]AuthorType, 0, len(authorTypesStrings)-1)
+	for at := range authorTypesStrings {
+		if at == AuthorUnknown {
+			continue
+		}
+		aat = append(aat, at)
+	}
+
+	return aat
 }
 
 func (at AuthorType) String() string {

@@ -1,7 +1,5 @@
 package litres_integration
 
-import "golang.org/x/exp/maps"
-
 type SeriesType int
 
 const (
@@ -17,7 +15,15 @@ var seriesTypesStrings = map[SeriesType]string{
 }
 
 func AllSeriesTypes() []SeriesType {
-	return maps.Keys(seriesTypesStrings)
+	ast := make([]SeriesType, 0, len(seriesTypesStrings)-1)
+	for st := range seriesTypesStrings {
+		if st == SeriesUnknown {
+			continue
+		}
+		ast = append(ast, st)
+	}
+
+	return ast
 }
 
 func (st SeriesType) String() string {
