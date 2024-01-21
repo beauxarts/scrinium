@@ -3,27 +3,27 @@ package litres_integration
 type ArtsType int
 
 const (
-	ArtsUnknown ArtsType = iota
-	ArtsDetails
-	ArtsSimilar
-	ArtsQuotes
-	ArtsFiles
-	ArtsReviews
+	ArtsTypeUnknown ArtsType = iota
+	ArtsTypeDetails
+	ArtsTypeSimilar
+	ArtsTypeQuotes
+	ArtsTypeFiles
+	ArtsTypeReviews
 )
 
 var artsTypesStrings = map[ArtsType]string{
-	ArtsUnknown: "arts-unknown",
-	ArtsDetails: "arts-details",
-	ArtsSimilar: "arts-similar",
-	ArtsQuotes:  "arts-quotes",
-	ArtsFiles:   "arts-files",
-	ArtsReviews: "arts-reviews",
+	ArtsTypeUnknown: "arts-unknown",
+	ArtsTypeDetails: "arts-details",
+	ArtsTypeSimilar: "arts-similar",
+	ArtsTypeQuotes:  "arts-quotes",
+	ArtsTypeFiles:   "arts-files",
+	ArtsTypeReviews: "arts-reviews",
 }
 
 func AllArtsTypes() []ArtsType {
 	aat := make([]ArtsType, 0, len(artsTypesStrings)-1)
 	for at := range artsTypesStrings {
-		if at == ArtsUnknown {
+		if at == ArtsTypeUnknown {
 			continue
 		}
 		aat = append(aat, at)
@@ -36,7 +36,7 @@ func (at ArtsType) String() string {
 	if ats, ok := artsTypesStrings[at]; ok {
 		return ats
 	}
-	return artsTypesStrings[ArtsUnknown]
+	return artsTypesStrings[ArtsTypeUnknown]
 }
 
 func ParseArtsType(str string) ArtsType {
@@ -45,5 +45,5 @@ func ParseArtsType(str string) ArtsType {
 			return at
 		}
 	}
-	return ArtsUnknown
+	return ArtsTypeUnknown
 }

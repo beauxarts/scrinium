@@ -6,14 +6,14 @@ import (
 )
 
 var artsPathTemplates = map[ArtsType]string{
-	ArtsDetails: artsDetailsPathTemplate,
-	ArtsSimilar: artsSimilarPathTemplate,
-	ArtsQuotes:  artsQuotesPathTemplate,
-	ArtsFiles:   artsFilesPathTemplate,
-	ArtsReviews: artsReviewsPathTemplate,
+	ArtsTypeDetails: artsDetailsPathTemplate,
+	ArtsTypeSimilar: artsSimilarPathTemplate,
+	ArtsTypeQuotes:  artsQuotesPathTemplate,
+	ArtsTypeFiles:   artsFilesPathTemplate,
+	ArtsTypeReviews: artsReviewsPathTemplate,
 }
 
-func ArtsUrl(at ArtsType, id string) *url.URL {
+func ArtsTypeUrl(at ArtsType, id string) *url.URL {
 	pathTemplate := artsPathTemplates[at]
 	if pathTemplate == "" {
 		return nil
