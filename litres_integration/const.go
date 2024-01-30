@@ -1,18 +1,16 @@
 package litres_integration
 
 const (
-	scheme               = "https"
+	httpsScheme          = "https"
 	LitResHost           = "litres.ru"
 	cvLitResHost         = "cv." + LitResHost
 	apiLitResHost        = "api." + LitResHost
 	wwwHost              = "www." + LitResHost
 	partnersDownloadHost = "partnersdnld." + LitResHost
 
-	coverPath                    = "/pub/c/cover"
-	cover330Path                 = "/pub/c/cover_330"
-	cover415Path                 = "/pub/c/cover_415"
-	myBooksFreshPath             = "/pages/my_books_fresh"
-	myBooksFreshPagePathTemplate = "/page-{num}"
+	coverPath    = "/pub/c/cover"
+	cover330Path = "/pub/c/cover_330"
+	cover415Path = "/pub/c/cover_415"
 
 	foundationApiPath = "/foundation/api"
 
@@ -28,6 +26,8 @@ const (
 
 	seriesDetailsPathTemplate = foundationApiPath + "/series/{id}"
 	seriesArtsPathTemplate    = seriesDetailsPathTemplate + "/arts"
+
+	historyLogPathTemplate = "/pages/personal_cabinet_history_log/page-{0}"
 
 	coverPathTemplate = "/{id}.jpg"
 )

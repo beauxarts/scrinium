@@ -22,7 +22,7 @@ func ArtsTypeUrl(at ArtsType, id string) *url.URL {
 	artsPath := strings.Replace(pathTemplate, "{id}", id, -1)
 
 	return &url.URL{
-		Scheme: scheme,
+		Scheme: httpsScheme,
 		Host:   apiLitResHost,
 		Path:   artsPath,
 	}

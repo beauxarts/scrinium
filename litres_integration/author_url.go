@@ -19,7 +19,7 @@ func AuthorUrl(at AuthorType, id string) *url.URL {
 	authorPath := strings.Replace(pathTemplate, "{id}", id, -1)
 
 	return &url.URL{
-		Scheme: scheme,
+		Scheme: httpsScheme,
 		Host:   apiLitResHost,
 		Path:   authorPath,
 	}

@@ -19,7 +19,7 @@ func coverSizeUrl(id int64, host string, coverSizePath string) *url.URL {
 	cp := strings.Replace(coverPathTemplate, "{id}", strconv.FormatInt(id, 10), -1)
 
 	return &url.URL{
-		Scheme: scheme,
+		Scheme: httpsScheme,
 		Host:   host,
 		Path:   coverSizePath + cp,
 	}

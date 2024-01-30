@@ -4,14 +4,12 @@ type LitResDataType int
 
 const (
 	LitResUnknownData LitResDataType = iota
-	LitResMyBooksFresh
-	LitResMyBooksDetails
+	LitResHistoryLog
 )
 
 var litresDataTypeStrings = map[LitResDataType]string{
-	LitResUnknownData:    "litres-unknown-data",
-	LitResMyBooksFresh:   "litres-my-books-fresh",
-	LitResMyBooksDetails: "litres-my-books-details",
+	LitResUnknownData: "litres-unknown-data",
+	LitResHistoryLog:  "litres-history-log",
 }
 
 func AllLitResDataTypes() []LitResDataType {

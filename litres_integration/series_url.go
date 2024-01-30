@@ -19,7 +19,7 @@ func SeriesUrl(st SeriesType, id string) *url.URL {
 	seriesPath := strings.Replace(pathTemplate, "{id}", id, -1)
 
 	return &url.URL{
-		Scheme: scheme,
+		Scheme: httpsScheme,
 		Host:   apiLitResHost,
 		Path:   seriesPath,
 	}
