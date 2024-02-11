@@ -24,7 +24,7 @@ func AllCoverSizes() []CoverSize {
 
 func CoverUrl(id int64, size CoverSize) *url.URL {
 	path := strings.Replace(coverPathTemplate, "{size}", string(size), 1)
-	path = strings.Replace(coverPathTemplate, "{id}", strconv.FormatInt(id, 10), 1)
+	path = strings.Replace(path, "{id}", strconv.FormatInt(id, 10), 1)
 
 	return &url.URL{
 		Scheme: httpsScheme,
