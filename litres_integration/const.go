@@ -1,25 +1,20 @@
 package litres_integration
 
 const (
-	httpsScheme          = "https"
-	LitResHost           = "litres.ru"
-	cvLitResHost         = "cv." + LitResHost
-	apiLitResHost        = "api." + LitResHost
-	wwwHost              = "www." + LitResHost
-	partnersDownloadHost = "partnersdnld." + LitResHost
+	httpsScheme = "https"
 
-	coverPath    = "/pub/c/cover"
-	cover330Path = "/pub/c/cover_330"
-	cover415Path = "/pub/c/cover_415"
+	LitResHost    = "litres.ru"
+	cvLitResHost  = "cv." + LitResHost
+	apiLitResHost = "api." + LitResHost
+	wwwLitResHost = "www." + LitResHost
 
 	foundationApiPath = "/foundation/api"
 
-	artsDetailsPathTemplate     = foundationApiPath + "/arts/{id}"
-	artsSimilarPathTemplate     = artsDetailsPathTemplate + "/similar"
-	artsQuotesPathTemplate      = artsDetailsPathTemplate + "/quotes"
-	artsUserReviewsPathTemplate = artsDetailsPathTemplate + "/user-reviews"
-	artsFilesPathTemplate       = artsDetailsPathTemplate + "/files"
-	artsReviewsPathTemplate     = artsDetailsPathTemplate + "/reviews"
+	artsDetailsPathTemplate = foundationApiPath + "/arts/{id}"
+	artsSimilarPathTemplate = artsDetailsPathTemplate + "/similar"
+	artsQuotesPathTemplate  = artsDetailsPathTemplate + "/quotes"
+	artsFilesPathTemplate   = artsDetailsPathTemplate + "/files"
+	artsReviewsPathTemplate = artsDetailsPathTemplate + "/reviews"
 
 	authorDetailsPathTemplate = foundationApiPath + "/authors/{id}"
 	authorArtsPathTemplate    = authorDetailsPathTemplate + "/arts"
@@ -29,5 +24,5 @@ const (
 
 	historyLogPathTemplate = "/pages/personal_cabinet_history_log/page-{0}"
 
-	coverPathTemplate = "/{id}.jpg"
+	coverPathTemplate = "/pub/c/cover{size}/{id}.jpg"
 )
