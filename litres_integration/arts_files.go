@@ -42,6 +42,7 @@ var preferredEncodingTypes = []string{
 	"mobile_version_mp4",
 	"zip_with_mp3",
 	"pdf_book",
+	"unknown",
 	"",
 }
 
