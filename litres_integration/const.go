@@ -22,6 +22,8 @@ const (
 	seriesDetailsPathTemplate = foundationApiPath + "/series/{id}"
 	seriesArtsPathTemplate    = seriesDetailsPathTemplate + "/arts"
 
+	usersMeArtsStatsPath = foundationApiPath + "/users/me/arts/stats"
+
 	historyLogPathTemplate = "/pages/personal_cabinet_history_log/page-{0}"
 
 	coverPathTemplate = "/pub/c/cover{size}/{id}.jpg"
