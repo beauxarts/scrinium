@@ -2,6 +2,7 @@ package litres_integration
 
 import (
 	"net/url"
+	"path"
 	"slices"
 	"strconv"
 	"strings"
@@ -17,17 +18,17 @@ var typeDescriptions = map[string]string{
 	"rtf.zip":         "Можно открыть почти на любом устройстве",
 	"html":            "Можно читать книгу прямо в браузере",
 	"html.zip":        "Можно читать книгу прямо в браузере",
-	"mobi.prc":        "Подходит для электронных книг Amazon Kindle",
-	"azw3":            "Подходит для электронных книг Amazon Kindle",
-	"epub":            "Подходит для Apple Books и большинства приложений для чтения",
-	"ios.epub":        "Подходит для Apple Books и большинства приложений для чтения",
-	"audio/mpeg":      "Аудио книга в стандартном качестве",
-	"application/zip": "Аудио книга в стандартном качестве",
-	"audio/m4b":       "Версия для мобильного телефона",
-	"a4.pdf":          "Открывается в программах Adobe Reader, Preview.app",
-	"a6.pdf":          "Открывается в программах Adobe Reader, Preview.app",
-	"17x24.pdf":       "Открывается в программах Adobe Reader, Preview.app",
-	"application/pdf": "Открывается в программах Adobe Reader, Preview.app",
+	"mobi.prc":        "Kindle",
+	"azw3":            "Kindle",
+	"epub":            "Apple",
+	"ios.epub":        "Apple",
+	"audio/mpeg":      "Аудио книга",
+	"application/zip": "Аудио книга",
+	"audio/m4b":       "Аудио книга",
+	"a4.pdf":          "Apple, Kindle",
+	"a6.pdf":          "Apple, Kindle",
+	"17x24.pdf":       "Apple, Kindle",
+	"application/pdf": "Apple, Kindle",
 }
 
 var preferredDownloadTypes = []string{
@@ -89,15 +90,21 @@ func (afd *ArtsFilesData) TypeDescription() string {
 	return afdt
 }
 
+func (afd *ArtsFilesData) TypeFilenameSansExt() string {
+	return strings.TrimSuffix(afd.Filename, path.Ext(afd.Filename))
+}
+
+func (afd *ArtsFilesData) TypeFilename() string {
+	if ext := afd.Extension; ext != nil {
+		return strings.Replace(afd.Filename, "zip", *ext, 1)
+	}
+	return afd.Filename
+}
+
 func (afd *ArtsFilesData) Url(id string) *url.URL {
 	path := strings.Replace(downloadPathTemplate, "{id}", id, 1)
 	path = strings.Replace(path, "{file_id}", strconv.FormatInt(int64(afd.Id), 10), 1)
-	path = strings.Replace(path, "{filename}", afd.Filename, 1)
-
-	if ext := afd.Extension; ext != nil {
-		filenameWithExt := strings.Replace(afd.Filename, "zip", *ext, 1)
-		path = strings.Replace(path, afd.Filename, filenameWithExt, 1)
-	}
+	path = strings.Replace(path, "{filename}", afd.TypeFilename(), 1)
 
 	return &url.URL{
 		Scheme: httpsScheme,
@@ -106,7 +113,7 @@ func (afd *ArtsFilesData) Url(id string) *url.URL {
 	}
 }
 
-func (af *ArtsFiles) DownloadsTypes() []*ArtsFilesData {
+func (af *ArtsFiles) PreferredDownloadsTypes() []*ArtsFilesData {
 	afd := make([]*ArtsFilesData, 0)
 	for _, d := range af.Payload.Data {
 		if slices.Contains(preferredDownloadTypes, d.Type()) {
