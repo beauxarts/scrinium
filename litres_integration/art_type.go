@@ -1,5 +1,7 @@
 package litres_integration
 
+import "strconv"
+
 type ArtType int
 
 const (
@@ -14,12 +16,18 @@ var artTypeStrings = map[ArtType]string{
 	ArtTypePDF:   "PDF",
 }
 
+var artTypeValues = map[ArtType]string{
+	ArtTypeText:  strconv.Itoa(int(ArtTypeText)),
+	ArtTypeAudio: strconv.Itoa(int(ArtTypeAudio)),
+	ArtTypePDF:   strconv.Itoa(int(ArtTypePDF)),
+}
+
 func (at ArtType) String() string {
 	return artTypeStrings[at]
 }
 
 func ParseArtType(ats string) ArtType {
-	for at, str := range artTypeStrings {
+	for at, str := range artTypeValues {
 		if str == ats {
 			return at
 		}
