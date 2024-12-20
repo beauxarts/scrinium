@@ -29,4 +29,6 @@ const (
 	coverPathTemplate = "/pub/c/cover{size}/{id}.jpg"
 
 	downloadPathTemplate = "/download_book/{id}/{file_id}/{filename}"
+
+	operationsPath = foundationApiPath + "/users/me/operations"
 )
