@@ -24,8 +24,6 @@ const (
 
 	usersMeArtsStatsPath = foundationApiPath + "/users/me/arts/stats"
 
-	historyLogPathTemplate = "/pages/personal_cabinet_history_log/page-{0}"
-
 	coverPathTemplate = "/pub/c/cover{size}/{id}.jpg"
 
 	downloadPathTemplate = "/download_book/{id}/{file_id}/{filename}"
