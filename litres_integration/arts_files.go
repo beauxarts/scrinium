@@ -3,6 +3,7 @@ package litres_integration
 import (
 	"net/url"
 	"path"
+	"path/filepath"
 	"slices"
 	"strconv"
 	"strings"
@@ -25,6 +26,7 @@ var typeDescriptions = map[string]string{
 	"audio/mpeg":      "Аудио книга",
 	"application/zip": "Аудио книга",
 	"audio/m4b":       "Аудио книга",
+	".m4b":            "Аудио книга",
 	"a4.pdf":          "Apple, Kindle",
 	"a6.pdf":          "Apple, Kindle",
 	"17x24.pdf":       "Apple, Kindle",
@@ -37,6 +39,7 @@ var preferredDownloadTypes = []string{
 	"epub",
 	"audio/m4b",
 	"application/pdf",
+	".m4b",
 }
 
 var preferredEncodingTypes = []string{
@@ -79,7 +82,13 @@ func (afd *ArtsFilesData) Type() string {
 	if ext := afd.Extension; ext != nil {
 		return *ext
 	}
-	return afd.MIME
+	if afd.MIME != "" {
+		return afd.MIME
+	}
+	if afd.Filename != "" {
+		return filepath.Ext(afd.Filename)
+	}
+	return ""
 }
 
 func (afd *ArtsFilesData) TypeDescription() string {
