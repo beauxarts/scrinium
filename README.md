@@ -1,6 +1,3 @@
 # scrinium
  
-Book services integrations module, currently supporting:
-
-- LitRes
-- LiveLib
+Book services integrations module, currently supporting LitRes
